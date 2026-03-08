@@ -25,6 +25,14 @@ repos:
         stages:
           - pre-commit
 
+      - id: clippy
+        name: clippy (lint .rs files)
+        entry: cargo clippy --allow-dirty --fix -- -D warnings
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
