@@ -2,6 +2,3 @@
 name = "wiki-route"
 version = "0.1.0"
 edition = "2024"
-
-[dependencies]
-parse-mediawiki-sql = "0.10.0"
