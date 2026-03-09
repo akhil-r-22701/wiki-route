@@ -42,41 +42,52 @@ pub fn find_connection(
             return None;
         }
 
-        if let Some(cur) = forward_queue.pop_front() {
+        // Expand full forward level
+        for _ in 0..forward_queue.len() {
+            let cur = forward_queue.pop_front().unwrap();
             for &neighbor in &graph[cur as usize] {
                 if forward_visited.contains_key(&neighbor) {
                     continue;
                 }
-
                 forward_visited.insert(neighbor, cur);
                 forward_queue.push_back(neighbor);
-
-                if backward_visited.contains_key(&neighbor) {
-                    return Some(reconstruct_path(
-                        neighbor,
-                        &forward_visited,
-                        &backward_visited,
-                    ));
-                }
             }
         }
 
-        if let Some(cur) = backward_queue.pop_front() {
+        // Check for meeting point after full forward level
+        if let Some(&meeting) = forward_visited
+            .keys()
+            .find(|k| backward_visited.contains_key(k))
+        {
+            return Some(reconstruct_path(
+                meeting,
+                &forward_visited,
+                &backward_visited,
+            ));
+        }
+
+        // Expand full backward level
+        for _ in 0..backward_queue.len() {
+            let cur = backward_queue.pop_front().unwrap();
             for &neighbor in &reverse_graph[cur as usize] {
                 if backward_visited.contains_key(&neighbor) {
                     continue;
                 }
                 backward_visited.insert(neighbor, cur);
                 backward_queue.push_back(neighbor);
-
-                if forward_visited.contains_key(&neighbor) {
-                    return Some(reconstruct_path(
-                        neighbor,
-                        &forward_visited,
-                        &backward_visited,
-                    ));
-                }
             }
+        }
+
+        // Check for meeting point after full backward level
+        if let Some(&meeting) = backward_visited
+            .keys()
+            .find(|k| forward_visited.contains_key(k))
+        {
+            return Some(reconstruct_path(
+                meeting,
+                &forward_visited,
+                &backward_visited,
+            ));
         }
     }
 }
