@@ -1,3 +1,4 @@
+pub mod bfs;
 pub mod graph;
 pub mod parser_utils;
 pub mod types;
