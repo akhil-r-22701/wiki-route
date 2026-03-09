@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::io::BufRead;
 
 use crate::parser_utils::extract_quoted;
-use crate::types::{LinkTargetId, PageTitle};
+use crate::types::{LinkTargetId, PageId, PageTitle};
 
 const INSERT_PREFIX: &str = "INSERT INTO `linktarget` VALUES ";
 
@@ -45,4 +45,14 @@ fn parse_tuple(tuple: &str) -> Option<(LinkTargetId, PageTitle)> {
     let (title, _) = extract_quoted(rest)?;
 
     Some((lt_id, title))
+}
+
+pub fn resolve_linktargets(
+    linktargets: HashMap<LinkTargetId, PageTitle>,
+    pages: &HashMap<PageTitle, PageId>,
+) -> HashMap<LinkTargetId, PageId> {
+    linktargets
+        .into_iter()
+        .filter_map(|(lt_id, title)| pages.get(&title).map(|&page_id| (lt_id, page_id)))
+        .collect()
 }
