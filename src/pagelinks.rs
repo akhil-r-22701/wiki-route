@@ -1,10 +1,12 @@
 use std::io::BufRead;
 
-use crate::types::{PageId, LinkTargetId};
+use crate::types::{LinkTargetId, PageId};
 
 const INSERT_PREFIX: &str = "INSERT INTO `pagelinks` VALUES ";
 
-pub fn parse_pagelinks<R: BufRead>(reader: R) -> Result<Vec<(PageId, LinkTargetId)>, std::io::Error> {
+pub fn parse_pagelinks<R: BufRead>(
+    reader: R,
+) -> Result<Vec<(PageId, LinkTargetId)>, std::io::Error> {
     let mut pagelinks = Vec::new();
 
     for line in reader.lines() {
@@ -31,8 +33,7 @@ pub fn parse_pagelinks<R: BufRead>(reader: R) -> Result<Vec<(PageId, LinkTargetI
                 continue;
             }
 
-            let (Ok(from), Ok(target_id)) = (from.parse::<u32>(), target_id.parse::<u64>())
-            else {
+            let (Ok(from), Ok(target_id)) = (from.parse::<u32>(), target_id.parse::<u64>()) else {
                 continue;
             };
 
