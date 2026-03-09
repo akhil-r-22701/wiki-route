@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::BufReader;
 
-use wiki_route::graph::build_graph;
+use wiki_route::graph::build_graphs;
 use wiki_route::linktarget::{parse_linktargets, resolve_linktargets};
 use wiki_route::page::parse_pages;
 use wiki_route::pagelinks::parse_pagelinks;
@@ -32,8 +32,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Resolved {} linktargets to page IDs", linktargets.len());
 
     let max_page_id = pages.values().copied().max().ok_or("TODO: Error")?;
-    let graph = build_graph(&pagelinks, &linktargets, max_page_id);
-    println!("Built graph with {} pages", pages.len());
+    let graph = build_graphs(&pagelinks, &linktargets, max_page_id);
+    println!("Built graphs with {} pages", pages.len());
 
     Ok(())
 }

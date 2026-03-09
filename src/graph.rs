@@ -2,18 +2,20 @@ use std::collections::HashMap;
 
 use crate::types::{Graph, LinkTargetId, PageId};
 
-pub fn build_graph(
+pub fn build_graphs(
     pagelinks: &[(PageId, LinkTargetId)],
     linktargets: &HashMap<LinkTargetId, PageId>,
     max_page_id: PageId,
-) -> Graph {
+) -> (Graph, Graph) {
     let mut graph = vec![Vec::new(); max_page_id as usize + 1];
+    let mut reverse_graph = vec![Vec::new(); max_page_id as usize + 1];
 
     for &(from_page_id, linktarget_id) in pagelinks {
         if let Some(&to_page_id) = linktargets.get(&linktarget_id) {
             graph[from_page_id as usize].push(to_page_id);
+            reverse_graph[to_page_id as usize].push(from_page_id);
         }
     }
 
-    graph
+    (graph, reverse_graph)
 }
