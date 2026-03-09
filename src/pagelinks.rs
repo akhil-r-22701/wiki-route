@@ -1,7 +1,6 @@
 use std::io::BufRead;
 
-pub struct PageId(pub u32);
-pub struct LinkTargetId(pub u64);
+use crate::types::{PageId, LinkTargetId};
 
 const INSERT_PREFIX: &str = "INSERT INTO `pagelinks` VALUES ";
 
