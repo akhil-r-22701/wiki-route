@@ -37,7 +37,7 @@ pub fn parse_pagelinks<R: BufRead>(
                 continue;
             };
 
-            pagelinks.push((PageId(from), LinkTargetId(target_id)));
+            pagelinks.push((from, target_id));
         }
     }
 

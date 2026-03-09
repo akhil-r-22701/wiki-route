@@ -49,5 +49,5 @@ fn parse_tuple(tuple: &str) -> Option<(PageId, PageTitle)> {
         return None;
     }
 
-    Some((PageId(page_id), PageTitle(title)))
+    Some((page_id, title))
 }

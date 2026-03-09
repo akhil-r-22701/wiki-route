@@ -44,5 +44,5 @@ fn parse_tuple(tuple: &str) -> Option<(LinkTargetId, PageTitle)> {
     let rest = parts.next()?.strip_prefix('\'')?;
     let (title, _) = extract_quoted(rest)?;
 
-    Some((LinkTargetId(lt_id), PageTitle(title)))
+    Some((lt_id, title))
 }

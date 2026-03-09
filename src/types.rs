@@ -1,7 +1,3 @@
-pub struct PageId(pub u32);
-
-#[derive(PartialEq, Eq, Hash)]
-pub struct LinkTargetId(pub u64);
-
-#[derive(PartialEq, Eq, Hash)]
-pub struct PageTitle(pub String);
+pub type PageId = u32;
+pub type LinkTargetId = u64;
+pub type PageTitle = String;
