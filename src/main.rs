@@ -32,7 +32,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Resolved {} linktargets to page IDs", linktargets.len());
 
     let max_page_id = pages.values().copied().max().ok_or("TODO: Error")?;
-    let graph = build_graphs(&pagelinks, &linktargets, max_page_id);
+    let (graph, reverse_graph) = build_graphs(&pagelinks, &linktargets, max_page_id);
     println!("Built graphs with {} pages", pages.len());
 
     Ok(())
