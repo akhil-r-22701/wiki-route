@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::BufWriter;
 
 use crate::types::{Graph, LinkTargetId, PageId};
 
@@ -18,4 +20,18 @@ pub fn build_graphs(
     }
 
     (graph, reverse_graph)
+}
+
+pub fn save_graphs_bin(
+    graph: &Graph,
+    reverse_graph: &Graph,
+    graph_path: &str,
+    reverse_graph_path: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
+    bincode::serialize_into(BufWriter::new(File::create(graph_path)?), graph)?;
+    bincode::serialize_into(
+        BufWriter::new(File::create(reverse_graph_path)?),
+        reverse_graph,
+    )?;
+    Ok(())
 }
