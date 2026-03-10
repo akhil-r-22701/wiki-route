@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::fs::File;
-use std::io::BufWriter;
+use std::io::{BufReader, BufWriter};
 
 use crate::types::{Graph, LinkTargetId, PageId};
 
@@ -34,4 +34,14 @@ pub fn save_graphs_bin(
         reverse_graph,
     )?;
     Ok(())
+}
+
+pub fn load_graphs_bin(
+    graph_path: &str,
+    reverse_graph_path: &str,
+) -> Result<(Graph, Graph), Box<dyn std::error::Error>> {
+    let graph: Graph = bincode::deserialize_from(BufReader::new(File::open(graph_path)?))?;
+    let reverse_graph: Graph =
+        bincode::deserialize_from(BufReader::new(File::open(reverse_graph_path)?))?;
+    Ok((graph, reverse_graph))
 }
