@@ -1,0 +1,7 @@
+[package]
+name = "wiki-route-server"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+wiki-route-lib = { path = "../lib" }

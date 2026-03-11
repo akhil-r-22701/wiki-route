@@ -1,10 +1,10 @@
 use std::fs::File;
 use std::io::BufReader;
 
-use wiki_route::graph::build_graphs;
-use wiki_route::linktarget::{parse_linktargets, resolve_linktargets};
-use wiki_route::page::parse_pages;
-use wiki_route::pagelinks::parse_pagelinks;
+use wiki_route_lib::graph::build_graphs;
+use wiki_route_lib::linktarget::{parse_linktargets, resolve_linktargets};
+use wiki_route_lib::page::parse_pages;
+use wiki_route_lib::pagelinks::parse_pagelinks;
 
 const PAGELINKS_SQL_PATH: &str = "wiki-sql/simplewiki-latest-pagelinks.sql";
 const PAGE_SQL_PATH: &str = "wiki-sql/simplewiki-latest-page.sql";
