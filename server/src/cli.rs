@@ -9,6 +9,10 @@ pub struct Cli {
     #[command(flatten)]
     pub source: GraphSource,
 
+    /// Save computed graphs to this directory (only valid with --sql-dir)
+    #[arg(long, conflicts_with = "graphs_dir")]
+    pub save_dir: Option<PathBuf>,
+
     /// Unix socket path to listen on
     #[arg(long, default_value = "/tmp/wiki-route.sock")]
     pub socket: PathBuf,
