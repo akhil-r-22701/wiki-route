@@ -6,21 +6,31 @@ mod loader;
 mod page;
 mod pagelinks;
 mod parser_utils;
+mod server;
 mod types;
+
+use std::sync::Arc;
 
 use clap::Parser;
 use cli::Cli;
+use server::ServerState;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    env_logger::init();
     let cli = Cli::parse();
 
-    let (_graph, _reverse_graph) = match (cli.source.sql_dir, cli.source.graphs_dir) {
+    let (graph, reverse_graph) = match (cli.source.sql_dir, cli.source.graphs_dir) {
         (Some(sql_dir), None) => loader::load_from_sql(&sql_dir, cli.save_dir.as_deref())?,
         (None, Some(graphs_dir)) => loader::load_from_bin(&graphs_dir)?,
         _ => unreachable!(),
     };
 
-    println!("[+] Ready. Listening on {}", cli.socket.display());
+    let state = ServerState {
+        graph: Arc::new(graph),
+        reverse_graph: Arc::new(reverse_graph),
+    };
+
+    server::run(&cli.socket, state)?;
 
     Ok(())
 }
