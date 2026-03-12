@@ -1,5 +1,12 @@
+mod bfs;
 mod cli;
+mod graph;
+mod linktarget;
 mod loader;
+mod page;
+mod pagelinks;
+mod parser_utils;
+mod types;
 
 use clap::Parser;
 use cli::Cli;

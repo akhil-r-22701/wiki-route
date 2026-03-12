@@ -2,11 +2,11 @@ use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
 
-use wiki_route_lib::graph::{build_graphs, load_graphs_bin, save_graphs_bin};
-use wiki_route_lib::linktarget::{parse_linktargets, resolve_linktargets};
-use wiki_route_lib::page::parse_pages;
-use wiki_route_lib::pagelinks::parse_pagelinks;
-use wiki_route_lib::types::Graph;
+use crate::graph::{build_graphs, load_graphs_bin, save_graphs_bin};
+use crate::linktarget::{parse_linktargets, resolve_linktargets};
+use crate::page::parse_pages;
+use crate::pagelinks::parse_pagelinks;
+use crate::types::Graph;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 

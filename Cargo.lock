@@ -207,19 +207,12 @@ name = "wiki-route"
 version = "0.1.0"
 
 [[package]]
-name = "wiki-route-lib"
-version = "0.1.0"
-dependencies = [
- "bincode",
- "serde",
-]
-
-[[package]]
 name = "wiki-route-server"
 version = "0.1.0"
 dependencies = [
+ "bincode",
  "clap",
- "wiki-route-lib",
+ "serde",
 ]
 
 [[package]]
