@@ -29,6 +29,31 @@ pub fn parse_pages<R: BufRead>(reader: R) -> Result<HashMap<PageTitle, PageId>, 
     Ok(pages)
 }
 
+pub fn parse_id_to_title<R: BufRead>(
+    reader: R,
+) -> Result<HashMap<PageId, PageTitle>, std::io::Error> {
+    let mut map = HashMap::new();
+
+    for line in reader.lines() {
+        let line = line?;
+
+        let Some(rest) = line.strip_prefix(INSERT_PREFIX) else {
+            continue;
+        };
+        let rest = rest.strip_suffix(';').unwrap_or(rest);
+
+        for tuple in rest.split("),(") {
+            let tuple = tuple.trim_matches(|c| c == '(' || c == ')');
+
+            if let Some((page_id, title)) = parse_tuple(tuple) {
+                map.insert(page_id, title);
+            }
+        }
+    }
+
+    Ok(map)
+}
+
 fn parse_tuple(tuple: &str) -> Option<(PageId, PageTitle)> {
     let mut parts = tuple.splitn(3, ',');
     let page_id: u32 = parts.next()?.parse().ok()?;

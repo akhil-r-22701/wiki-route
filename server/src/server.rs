@@ -5,11 +5,13 @@ use std::sync::Arc;
 
 use log::{error, info};
 
+use crate::graph::TitleMaps;
 use crate::types::Graph;
 
 pub struct ServerState {
     pub graph: Arc<Graph>,
     pub reverse_graph: Arc<Graph>,
+    pub title_maps: Arc<TitleMaps>,
 }
 
 pub fn run(socket: &Path, state: ServerState) -> Result<(), Box<dyn std::error::Error>> {
@@ -24,9 +26,10 @@ pub fn run(socket: &Path, state: ServerState) -> Result<(), Box<dyn std::error::
         let stream = stream?;
         let graph = Arc::clone(&state.graph);
         let reverse_graph = Arc::clone(&state.reverse_graph);
+        let title_maps = Arc::clone(&state.title_maps);
 
         std::thread::spawn(move || {
-            if let Err(e) = handle_connection(stream, &graph, &reverse_graph) {
+            if let Err(e) = handle_connection(stream, &graph, &reverse_graph, &title_maps) {
                 error!("Connection error: {}", e);
             }
         });
@@ -39,6 +42,7 @@ fn handle_connection(
     stream: std::os::unix::net::UnixStream,
     _graph: &Graph,
     _reverse_graph: &Graph,
+    _title_maps: &TitleMaps,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let reader = BufReader::new(stream.try_clone()?);
     let mut writer = stream;

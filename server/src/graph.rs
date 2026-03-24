@@ -2,7 +2,15 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufReader, BufWriter};
 
-use crate::types::{Graph, LinkTargetId, PageId};
+use serde::{Deserialize, Serialize};
+
+use crate::types::{Graph, LinkTargetId, PageId, PageTitle};
+
+#[derive(Serialize, Deserialize)]
+pub struct TitleMaps {
+    pub title_to_id: HashMap<PageTitle, PageId>,
+    pub id_to_title: HashMap<PageId, PageTitle>,
+}
 
 pub fn build_graphs(
     pagelinks: &[(PageId, LinkTargetId)],
@@ -44,4 +52,14 @@ pub fn load_graphs_bin(
     let reverse_graph: Graph =
         bincode::deserialize_from(BufReader::new(File::open(reverse_graph_path)?))?;
     Ok((graph, reverse_graph))
+}
+
+pub fn save_titles_bin(maps: &TitleMaps, path: &str) -> Result<(), Box<dyn std::error::Error>> {
+    bincode::serialize_into(BufWriter::new(File::create(path)?), maps)?;
+    Ok(())
+}
+
+pub fn load_titles_bin(path: &str) -> Result<TitleMaps, Box<dyn std::error::Error>> {
+    let maps: TitleMaps = bincode::deserialize_from(BufReader::new(File::open(path)?))?;
+    Ok(maps)
 }
