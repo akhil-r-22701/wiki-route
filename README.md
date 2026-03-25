@@ -31,12 +31,12 @@ wiki-route parses three SQL dump files from the [Wikimedia database dumps](https
 | `pagelinks.sql` | Links between pages |
 | `linktarget.sql` | Link target resolution table |
 
-**English Wikipedia (large, ~6M articles):**
+**English Wikipedia (~7M articles):**
 - https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-page.sql.gz
 - https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pagelinks.sql.gz
 - https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-linktarget.sql.gz
 
-**Simple English Wikipedia (small, great for testing):**
+**Simple English Wikipedia (~280K articles):**
 - https://dumps.wikimedia.org/simplewiki/latest/simplewiki-latest-page.sql.gz
 - https://dumps.wikimedia.org/simplewiki/latest/simplewiki-latest-pagelinks.sql.gz
 - https://dumps.wikimedia.org/simplewiki/latest/simplewiki-latest-linktarget.sql.gz
