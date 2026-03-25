@@ -16,8 +16,15 @@ use cli::Cli;
 use server::ServerState;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    env_logger::init();
     let cli = Cli::parse();
+
+    let log_level = match cli.verbose {
+        0 => "warn",
+        1 => "info",
+        2 => "debug",
+        _ => "trace",
+    };
+    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or(log_level)).init();
 
     let (graph, reverse_graph, title_maps) = match (cli.source.sql_dir, cli.source.data_dir) {
         (Some(sql_dir), None) => loader::load_from_sql(&sql_dir, cli.save_dir.as_deref())?,

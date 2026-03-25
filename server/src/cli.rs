@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use clap::{Args, Parser};
+use clap::{ArgAction, Args, Parser};
 
 #[derive(Parser)]
 #[command(name = "wiki-route-server")]
@@ -16,6 +16,10 @@ pub struct Cli {
     /// Unix socket path to listen on
     #[arg(long, default_value = "/tmp/wiki-route.sock")]
     pub socket: PathBuf,
+
+    /// Increase verbosity (-v info, -vv debug, -vvv trace)
+    #[arg(short, long, action = ArgAction::Count)]
+    pub verbose: u8,
 }
 
 #[derive(Args)]
