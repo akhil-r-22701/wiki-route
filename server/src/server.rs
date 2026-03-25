@@ -5,6 +5,7 @@ use std::sync::Arc;
 
 use log::{error, info};
 
+use crate::bfs::find_connection;
 use crate::graph::TitleMaps;
 use crate::types::Graph;
 
@@ -40,9 +41,9 @@ pub fn run(socket: &Path, state: ServerState) -> Result<(), Box<dyn std::error::
 
 fn handle_connection(
     stream: std::os::unix::net::UnixStream,
-    _graph: &Graph,
-    _reverse_graph: &Graph,
-    _title_maps: &TitleMaps,
+    graph: &Graph,
+    reverse_graph: &Graph,
+    title_maps: &TitleMaps,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let reader = BufReader::new(stream.try_clone()?);
     let mut writer = stream;
@@ -60,8 +61,38 @@ fn handle_connection(
 
         info!("Query: {} -> {}", from, to);
 
-        // TODO: resolve titles to PageIds, run BFS, respond with path
-        writer.write_all(b"TODO\n\n")?;
+        let (Some(&from_id), Some(&to_id)) = (
+            title_maps.title_to_id.get(&from),
+            title_maps.title_to_id.get(&to),
+        ) else {
+            let unknown = if !title_maps.title_to_id.contains_key(&from) {
+                &from
+            } else {
+                &to
+            };
+            writer.write_all(format!("ERROR unknown page '{}'\n\n", unknown).as_bytes())?;
+            writer.flush()?;
+            continue;
+        };
+
+        let response = match find_connection(from_id, to_id, graph, reverse_graph) {
+            Some(path) => {
+                let titles: Vec<&str> = path
+                    .iter()
+                    .map(|id| {
+                        title_maps
+                            .id_to_title
+                            .get(id)
+                            .map(|s| s.as_str())
+                            .unwrap_or("?")
+                    })
+                    .collect();
+                format!("OK\n{}\n\n", titles.join("\n"))
+            }
+            None => "NOT_FOUND\n\n".to_string(),
+        };
+
+        writer.write_all(response.as_bytes())?;
         writer.flush()?;
     }
 
