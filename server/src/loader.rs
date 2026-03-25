@@ -54,6 +54,7 @@ pub fn load_from_sql(sql_dir: &Path, save_dir: Option<&Path>) -> Result<(Graph, 
     info!("Built graphs ({} nodes)", graph.len());
 
     if let Some(dir) = save_dir {
+        std::fs::create_dir_all(dir)?;
         let graph_path = dir.join("graph.bin");
         let reverse_graph_path = dir.join("reverse_graph.bin");
         let titles_path = dir.join("titles.bin");
