@@ -2,7 +2,11 @@
 
 Find the shortest path between any two Wikipedia articles. The Wikipedia game, solved.
 
-<!-- TODO: Add demo video here -->
+
+https://github.com/user-attachments/assets/f6e32802-3450-4304-a3b8-b81f2bf2391b
+
+
+> Note: The demo uses **Simple English Wikipedia** rather than full English Wikipedia for faster loading times.
 
 ## How it works
 
@@ -96,12 +100,6 @@ wiki-route [OPTIONS] <FROM> <TO>
 Options:
     --socket <SOCKET>  Unix socket path [default: /tmp/wiki-route.sock]
 ```
-
-## Demo
-
-<!-- TODO: Add link to demo video -->
-
-> Note: The demo uses **Simple English Wikipedia** rather than full English Wikipedia for faster loading times.
 
 ## License
 
