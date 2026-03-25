@@ -9,8 +9,8 @@ pub struct Cli {
     #[command(flatten)]
     pub source: GraphSource,
 
-    /// Save computed graphs to this directory (only valid with --sql-dir)
-    #[arg(long, conflicts_with = "graphs_dir")]
+    /// Save computed data to this directory (only valid with --sql-dir)
+    #[arg(long, conflicts_with = "data_dir")]
     pub save_dir: Option<PathBuf>,
 
     /// Unix socket path to listen on
@@ -25,7 +25,7 @@ pub struct GraphSource {
     #[arg(long)]
     pub sql_dir: Option<PathBuf>,
 
-    /// Directory containing graph.bin and reverse_graph.bin
+    /// Directory containing precomputed .bin files (graph.bin, reverse_graph.bin, titles.bin)
     #[arg(long)]
-    pub graphs_dir: Option<PathBuf>,
+    pub data_dir: Option<PathBuf>,
 }

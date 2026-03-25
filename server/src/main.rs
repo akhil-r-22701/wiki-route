@@ -19,9 +19,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
     let cli = Cli::parse();
 
-    let (graph, reverse_graph, title_maps) = match (cli.source.sql_dir, cli.source.graphs_dir) {
+    let (graph, reverse_graph, title_maps) = match (cli.source.sql_dir, cli.source.data_dir) {
         (Some(sql_dir), None) => loader::load_from_sql(&sql_dir, cli.save_dir.as_deref())?,
-        (None, Some(graphs_dir)) => loader::load_from_bin(&graphs_dir)?,
+        (None, Some(data_dir)) => loader::load_from_bin(&data_dir)?,
         _ => unreachable!(),
     };
 
