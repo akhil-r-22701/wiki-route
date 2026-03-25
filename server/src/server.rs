@@ -70,7 +70,7 @@ fn handle_connection(
             } else {
                 &to
             };
-            writer.write_all(format!("ERROR unknown page '{}'\n\n", unknown).as_bytes())?;
+            writer.write_all(format!("ERROR: unknown page '{}'\n\n", unknown).as_bytes())?;
             writer.flush()?;
             continue;
         };

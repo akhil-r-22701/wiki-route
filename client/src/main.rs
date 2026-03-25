@@ -27,8 +27,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     };
 
-    if status.starts_with("ERROR") {
-        eprintln!("{}", status);
+    if let Some(msg) = status.strip_prefix("ERROR: ") {
+        eprintln!("Error: {}", msg);
         process::exit(1);
     }
 
@@ -38,13 +38,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // status == "OK", remaining lines are the path
-    for line in lines {
-        let line = line?;
-        if line.is_empty() {
-            break;
-        }
-        println!("{}", line);
-    }
+    let path: Vec<String> = lines
+        .map_while(|line| {
+            let line = line.ok()?;
+            if line.is_empty() { None } else { Some(line) }
+        })
+        .collect();
+
+    println!("{}", path.join(" -> "));
 
     Ok(())
 }
