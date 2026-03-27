@@ -2,6 +2,12 @@
 name = "wiki-route"
 version = "0.1.0"
 edition = "2024"
+description = "Wikipedia shortest-path client using bidirectional BFS"
+license = "MIT"
+repository = "https://github.com/michal-pielka/wiki-route"
+readme = "../README.md"
+keywords = ["wikipedia", "wikipedia-game", "bfs", "graph", "pathfinding"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }

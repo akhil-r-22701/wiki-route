@@ -47,13 +47,21 @@ wiki-route parses three SQL dump files from the [Wikimedia database dumps](https
 
 Download and decompress the `.gz` files into a directory (e.g. `sql/`). Rename them to `page.sql`, `pagelinks.sql`, and `linktarget.sql`.
 
-## Usage
+## Installation
 
-### Build
-
+From [crates.io](https://crates.io/):
 ```sh
+cargo install wiki-route wiki-route-server
+```
+
+Or build from source:
+```sh
+git clone https://github.com/michal-pielka/wiki-route.git
+cd wiki-route
 cargo build --release
 ```
+
+## Usage
 
 ### Start the server
 
